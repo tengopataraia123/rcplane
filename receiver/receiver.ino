@@ -8,17 +8,21 @@ ServoTimer2 servo3;
 
 
 int escValue=1000;
-int currSpeed = 0;
+int currSpeed = 1000;
 int servo1Value = 1500;
 int servo2Value = 1500;
 int servo3Value = 1500;
 
 byte message[4]; // a buffer to store the incoming messages
 byte messageLength = 4; // the size of the message
-int received_number = 0;
 
 void setup() {
   esc.attach(2);
+
+  esc.write(2000);
+  delay(2000);
+  esc.write(1000);
+  
   servo1.attach(4);
   servo2.attach(5);
   servo3.attach(6);
@@ -26,29 +30,17 @@ void setup() {
   vw_setup(2000);
   vw_rx_start();
   delay(1000);
-  Serial.begin(9600);
 }
 
 void changeSpeedto(int value){
-  if(value > currSpeed){
-    while(currSpeed < value){
-      esc.write(currSpeed);
-      currSpeed++;
-      delay(5);
-    }
-  }else if(value < currSpeed){
-    while(currSpeed){
-      esc.write(currSpeed);
-      currSpeed--;
-      delay(5);
-    }
-  }
+  delay(20);
+  esc.write(value);
 }
 
 void loop() {
   vw_wait_rx();
   if (vw_get_message(message, &messageLength)) {
-    escValue = map(message[0],0,255,0,1800);
+    escValue = map(message[0],0,255,1000,2000);
     servo1Value = map(message[1],0,255,1000,2000);
     servo2Value = map(message[2],0,255,1000,2000);
     servo3Value = map(message[3],0,255,1000,2000);
@@ -57,5 +49,4 @@ void loop() {
   servo1.write(servo1Value);
   servo2.write(servo2Value);
   servo3.write(servo3Value);
-  Serial.println(escValue);
 }
