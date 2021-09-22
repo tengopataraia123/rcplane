@@ -4,11 +4,11 @@ Servo esc;
 
 void setup(){
   Serial.begin(9600);
-  esc.attach(2);
+  esc.attach(5);
   delay(1000);
 }
 
-int motorSpeed = 0;
+int motorSpeed = 1000;
 
 void loop(){
 

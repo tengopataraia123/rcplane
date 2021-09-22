@@ -17,6 +17,7 @@ byte message[4]; // a buffer to store the incoming messages
 byte messageLength = 4; // the size of the message
 
 void setup() {
+  Serial.begin(9600);
   esc.attach(2);
 
   esc.write(2000);
@@ -38,6 +39,7 @@ void changeSpeedto(int value){
 }
 
 void loop() {
+  changeSpeedto(1000);
   vw_wait_rx();
   if (vw_get_message(message, &messageLength)) {
     escValue = map(message[0],0,255,1000,2000);
